@@ -1188,6 +1188,7 @@ function isNetworkError(error) {
 
 async function launchWithRetry(attempt = 1) {
   try {
+    console.log("🔄 bot.launch() chaqirilmoqda...");
     await bot.launch();
     console.log("🤖 Telegram bot started successfully");
   } catch (error) {

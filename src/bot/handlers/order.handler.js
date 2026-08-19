@@ -236,10 +236,14 @@ async function viewOrderAdmin(ctx, orderId) {
   const addressText =
     order.deliveryType === "pickup"
       ? "🏪 Olib ketish"
-      : `🛵 Yetkazib berish\n📍 ${order.address?.address ||
-      (order.location?.latitude ? `${order.location.latitude}, ${order.location.longitude}` : "manzil ko‘rsatilmagan")
-      }`;
-
+      : [
+        "🛵 Yetkazib berish",
+        order.address?.address ? `📍 ${order.address.address}` : null,
+        order.location?.latitude
+          ? `🗺 Xarita: https://maps.google.com/?q=${order.location.latitude},${order.location.longitude}`
+          : null,
+        !order.address?.address && !order.location?.latitude ? "📍 manzil ko‘rsatilmagan" : null
+      ].filter(Boolean).join("\n");
   const lines = [
     `📦 #${order.orderNumber}`,
     "",
