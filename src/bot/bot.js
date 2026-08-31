@@ -1,6 +1,8 @@
 const { Telegraf, Markup } = require("telegraf");
 const { botToken } = require("../config/env");
 
+const { registerSettings } = require('./handlers/settings');
+
 /* =========================================================
    PROXY (ixtiyoriy)
    =========================================================
@@ -224,7 +226,7 @@ async function userMiddleware(ctx, next) {
 }
 
 bot.use(userMiddleware);
-
+registerSettings(bot, isAdmin); 
 /* =========================================================
    /START
 ========================================================= */
@@ -599,18 +601,6 @@ bot.hears("👥 Mijozlar", async ctx => {
    ADMIN - SETTINGS
 ========================================================= */
 
-bot.hears("⚙️ Sozlamalar", async ctx => {
-  if (!isAdmin(ctx)) {
-    return ctx.reply(
-      "❌ Faqat adminlar uchun."
-    );
-  }
-
-  return ctx.reply(
-    "⚙️ SOZLAMALAR\n\n" +
-    "Bot sozlamalari bo‘limi."
-  );
-});
 
 /* =========================================================
    COURIER ORDERS
@@ -1189,7 +1179,7 @@ function isNetworkError(error) {
 async function launchWithRetry(attempt = 1) {
   try {
     console.log("🔄 bot.launch() chaqirilmoqda...");
-    await bot.launch();
+    // await bot.launch();
     console.log("🤖 Telegram bot started successfully");
   } catch (error) {
     const network = isNetworkError(error);
@@ -1247,5 +1237,5 @@ async function startBot() {
 
 module.exports = {
   bot,
-  startBot
+  // startBot
 };
